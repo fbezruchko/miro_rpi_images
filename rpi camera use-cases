@@ -1,0 +1,18 @@
+#Setup gstreamer1.0:
+sudo apt-get install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+
+#Use-cases:
+https://raspberrypi.stackexchange.com/questions/26675/modern-way-to-stream-h-264-from-the-raspberry-cam
+
+http://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-low-latency.html
+https://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-opencv-rendering.html
+
+http://referencedesigner.com/blog/using-gstreamer-with-raspberry-pi-0/6252/
+
+https://codefluegel.com/en/howto-livestream-with-raspberry-pi-and-gstreamer/
+
+https://www.raspberrypi.org/forums/viewtopic.php?t=210598
+
+https://habr.com/ru/post/415567/
+
+
