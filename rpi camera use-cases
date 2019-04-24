@@ -2,9 +2,18 @@
 sudo apt-get install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
 
 #Use-cases:
-https://raspberrypi.stackexchange.com/questions/26675/modern-way-to-stream-h-264-from-the-raspberry-cam
+1. MJPEG
+- Pipeline on Raspberry: 
+raspivid -t 0 -cd MJPEG -w 640 -h 480 -fps 60 -b 25000000 -o - | gst-launch-1.0 fdsrc ! "image/jpeg,framerate=60/1" ! jpegparse ! rtpjpegpay ! udpsink host=192.168.0.39 port=4000
 
-http://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-low-latency.html
+- Pipeline on client:
+gst-launch-1.0 udpsrc port=4000 ! "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)JPEG,a-framerate=(string)60.000000,a-framesize=(string)640-480,payload=(int)26" ! rtpjpegdepay ! decodebin ! autovideosink
+
+You can change bitrate ("-b 25000000"), rezolution (640x480 in example) and framerate (60 in example).
+
+Link: http://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-low-latency.html
+
+
 https://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-opencv-rendering.html
 
 http://referencedesigner.com/blog/using-gstreamer-with-raspberry-pi-0/6252/
