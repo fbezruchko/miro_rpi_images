@@ -4,7 +4,7 @@ sudo apt-get install gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-p
 #Use-cases:
 1. MJPEG
 - Pipeline on Raspberry: 
-raspivid -t 0 -cd MJPEG -w 640 -h 480 -fps 60 -b 25000000 -o - | gst-launch-1.0 fdsrc ! "image/jpeg,framerate=60/1" ! jpegparse ! rtpjpegpay ! udpsink host=192.168.0.39 port=4000
+raspivid -t 0 -cd MJPEG -w 640 -h 480 -fps 60 -b 16000000 -o - | gst-launch-1.0 fdsrc ! "image/jpeg,framerate=60/1" ! jpegparse ! rtpjpegpay ! udpsink host=192.168.0.39 port=4000
 
 - Pipeline on client:
 gst-launch-1.0 udpsrc port=4000 ! "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)JPEG,a-framerate=(string)60.000000,a-framesize=(string)640-480,payload=(int)26" ! rtpjpegdepay ! decodebin ! autovideosink
@@ -13,15 +13,28 @@ You can change bitrate ("-b 25000000"), rezolution (640x480 in example) and fram
 
 Link: http://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-low-latency.html
 
+2. MJPEG via v412src (slow)
+- Pipeline on Raspberry:
+gst-launch-1.0 -vvv v4l2src device=/dev/video0 ! "image/jpeg,width=640,height=480,framerate=30/1" ! rtpjpegpay ! udpsink host=192.168.0.39 port=4000
 
+- Pipeline on client:
+gst-launch-1.0 -e -v udpsrc port=4000 ! application/x-rtp, encoding-name=JPEG,payload=26 ! rtpjpegdepay ! jpegdec ! autovideosink
+
+3. H264 (fast, but image distruction on fast scenes)
+- Pipeline on Raspberry:
+raspivid -rot 180 -w 640 -h 480 -fps 30 -b 16000000 -t 0 -o - | gst-launch-1.0 -v fdsrc ! h264parse ! rtph264pay pt=96 config-interval=10 ! udpsink host=192.168.0.39 port=4000
+
+"-rot 180" - rotate frame on 180 degrees.
+
+- Pipeline on client:
+gst-launch-1.0 udpsrc port=4000 ! "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)H264,payload=(int)96" ! rtph264depay ! decodebin ! autovideosink sync=false enable-navigation-events=false show-preroll-frame=false max-lateness=100
+
+
+Some links:
 https://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-opencv-rendering.html
-
 http://referencedesigner.com/blog/using-gstreamer-with-raspberry-pi-0/6252/
-
 https://codefluegel.com/en/howto-livestream-with-raspberry-pi-and-gstreamer/
-
 https://www.raspberrypi.org/forums/viewtopic.php?t=210598
-
 https://habr.com/ru/post/415567/
 
 
