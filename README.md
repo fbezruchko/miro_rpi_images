@@ -8,6 +8,7 @@ This is a special images for Raspberry Pi boards, installed in Miro robot.
 
 Script usage:
 "image-shrink imagefile [Additional MB]
+
 The image file will be shrunk to its absolute minimum size plus an optional number of additional megabytes."
 
  
