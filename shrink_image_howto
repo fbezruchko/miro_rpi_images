@@ -1,5 +1,4 @@
 On Raspberry do the following:
-
 $> sudo apt update
 $> Sudo apt upgrade
 $> sudo apt autoremove
@@ -9,11 +8,9 @@ $> sudo shutdown –h now
 
 Pop your SD card in your PC's card reader. Most likely the file manager will open a window or two. Close these windows if so.
 Now find out where the card is mounted. Go to a terminal session and type:
-
 $> df –h
 
 You'll see something like:
-
 /dev/mmcblk0p1                   56M   20M   37M  36% /media/user/boot
 /dev/mmcblk0p2                  7.2G  3.8G  3.0G  56% /media/user/rootfs
 
@@ -21,20 +18,22 @@ The important thing is that you now know that your SD card is on /dev/mmcblk0 . 
 Make a note of where your card is mounted and use this wherever I use /dev/mmcblk0 , /dev/mmcblk0p1 or /dev/mmcblk0p2.
 
 Let's unmount this but leave the card in the card reader. This will let us take an image.
-
 $> sudo umount /dev/mmcblk0p1 /dev/mmcblk0p2
 
 Install dcfldd if you haven't already got it (it won't hurt to try to install it again):
-
 $> sudo apt-get update && sudo apt-get install dcfldd
 
 Now take the image. Again, change /dev/mmcblk0 to wherever your SD card is mounted.
-
 $> sudo dcfldd if=/dev/ mmcblk0 of=raspbian_stretch_kinetic_ocv346_rpizero.img
 
-And shrink image:
+Once finished, you should force a synchronise of any outstanding input or output (there shouldn't be any, but just to be sure), then the card will be safe to remove.
+$> sudo sync
 
+Next, let's change the ownership of the .img file. The image file will be owned by root (because we used sudo). It's probably a wise move to change the ownership to your user. For example, my username is 'user' but you'll need to change this to your username:
+$> sudo chown user.user raspbian_stretch_kinetic_ocv346_rpizero.img
+
+And shrink image:
 $> sudo ./image-shrink.sh raspbian_stretch_kinetic_ocv346_rpizero.img
 
-tar -czvf raspbian_stretch_kinetic_ocv346_rpizero.img.tar.gz raspbian_stretch_kinetic_ocv346_rpizero.img
+$> tar -czvf raspbian_stretch_kinetic_ocv346_rpizero.img.tar.gz raspbian_stretch_kinetic_ocv346_rpizero.img
 
