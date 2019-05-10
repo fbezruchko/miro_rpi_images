@@ -29,6 +29,12 @@ raspivid -rot 180 -w 640 -h 480 -fps 30 -b 16000000 -t 0 -o - | gst-launch-1.0 -
 - Pipeline on client:
 gst-launch-1.0 udpsrc port=4000 ! "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)H264,payload=(int)96" ! rtph264depay ! decodebin ! autovideosink sync=false enable-navigation-events=false show-preroll-frame=false max-lateness=100
 
+4. OpenCV on RPi -> JPEG through gstreamer
+- Pipeline on Raspberry
+./<cv_program> | gst-launch-1.0 fdsrc ! "image/jpeg,framerate=40/1" ! jpegparse ! rtpjpegpay ! udpsink host=192.168.0.39 port=4000
+
+- Pipeline on client
+gst-launch-1.0 udpsrc port=4000 ! "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)JPEG,a-framerate=(string)40.000000,a-framesize=(string)640-480,payload=(int)26" ! rtpjpegdepay ! decodebin ! autovideosink
 
 Some links:
 https://hopkinsdev.blogspot.com/2016/06/raspberry-pi-camera-opencv-rendering.html
