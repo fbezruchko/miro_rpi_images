@@ -33,7 +33,7 @@ Next, let's change the ownership of the .img file. The image file will be owned 
 $> sudo chown user.user raspbian_stretch_kinetic_ocv346_rpizero.img
 
 And shrink image:
-$> sudo ./image-shrink.sh raspbian_stretch_kinetic_ocv346_rpizero.img
+$> ./image-shrink.sh raspbian_stretch_kinetic_ocv346_rpizero.img
 
 $> tar -czvf raspbian_stretch_kinetic_ocv346_rpizero.img.tar.gz raspbian_stretch_kinetic_ocv346_rpizero.img
 
