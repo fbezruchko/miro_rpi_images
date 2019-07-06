@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+#include <cv.h>
+#include <highgui.h>
+#include <opencv2/highgui.hpp>
+#include <opencv2/opencv.hpp>
+#include <raspicam/raspicam_cv.h>
+
+using namespace std;
+using namespace cv;
+int main(int argc, char* argv[])
+{
+	raspicam::RaspiCam_Cv capture;
+	// Можно вручную задать разрешение
+	capture.set(CV_CAP_PROP_FORMAT, CV_8UC3);
+	capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+	capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+
+	if (!capture.open()) {cerr<<"Error opening the camera"<<endl;return -1
+
+	Mat MATframe, Edge;
+	usleep(1000000);
+	while (true)
+	{
+		// Получаем кадр
+		capture.grab();
+		capture.retrieve( MATframe);
+		flip(MATframe, MATframe, 0);
+		
+		cvtColor(MATframe, MATframe, CV_BGR2GRAY);
+		Canny(MATframe, Edge, 50, 150, 3);
+		Edge.convertTo(MATframe, CV_GRAY2BGR);
+
+		// Mat to JPEG
+		vector<uchar> buf;
+		imencode(".jpg", MATframe, buf, std::vector<int>());
+		unsigned char* JPEGframe=(unsigned char*)malloc(buf.size());
+		memcpy(JPEGframe, &buf[0], buf.size());
+		write(STDOUT_FILENO, JPEGframe, buf.size());
+		free(JPEGframe);
+
+		usleep(10000);
+
+		// Отображаем кадр
+		//imshow("capture", frame);
+		//char c = waitKey(33);
+		//if (c == 27) // нажата ESC
+		//{
+		//	break;
+		//}
+		//else if (c == 13) // нажата Enter
+		//{
+			// Сохраняем кадр в файл
+		//	sprintf(filename, "Image%d.jpg", counter);
+		//	printf("[i] capture... %s\n", filename);
+		//	imwrite(filename, frame);
+		//	counter++;
+		//}
+	}
+	// Освобождаем ресурсы
+	capture.release();
+	//destroyWindow("capture");
+	return 0;
+}
+
