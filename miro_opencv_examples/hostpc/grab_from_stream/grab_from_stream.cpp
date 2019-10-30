@@ -14,23 +14,26 @@ using namespace cv;
 
 int main(int argc, char* argv[])
 {
-    const char* gst = "udpsrc port=4000 ! "
-		    "\""
-		    "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)JPEG,a-framerate=(string)40.000000,a-framesize=(string)640-480,payload=(int)26"
-		    "\""
-		    " ! rtpjpegdepay ! decodebin ! autovideosink";
+    const char* gst = "udpsrc port=4000 ! application/x-rtp,media=(string)video,encoding-name=(string)JPEG ! rtpjpegdepay ! decodebin ! videoconvert ! appsink";
 
-    cv::VideoCapture capture(gst);
+    cv::VideoCapture capture(gst, CAP_GSTREAMER);
 
-    if (!capture.open()) {cerr<<"Error opening the stream"<<endl;return -1;}
-    
+    cout<<"Hello world!"<<endl;
+
+    if (!capture.isOpened()) {cerr<<"Error opening the stream"<<endl;return -1;}
+
+    cout<<"Capture is opened!"<<endl;
+
     Mat MATframe;
-    cv::namedWindow("RPiCameraStream", CV_WINDOW_AUTOSIZE);
+    //cv::namedWindow("RPiCameraStream", CV_WINDOW_AUTOSIZE);
+
+   cout<<"Trying capturing..."<<endl;
 
     while (true)
     {
+        capture.read(MATframe);
 	// Получаем кадр
-	if (!capture.read(MATframe))
+	if (MATframe.empty())
 	{
 		std::cout<<"Capture read error"<<std::endl;
 		break;
@@ -38,10 +41,12 @@ int main(int argc, char* argv[])
 	else
 	{
 		cv::imshow("RPiCameraStream", MATframe);
+		cout<<"Cap!"<<endl;
 		cv::waitKey(1);
 	}
     }
     // Освобождаем ресурсы
     capture.release();
+    destroyWindow("RPiCameraStream");
     return 0;
 }
