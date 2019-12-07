@@ -43,6 +43,11 @@ https://codefluegel.com/en/howto-livestream-with-raspberry-pi-and-gstreamer/
 https://www.raspberrypi.org/forums/viewtopic.php?t=210598
 https://habr.com/ru/post/415567/
 
+Grab OpenCV on host
+http://qaru.site/questions/13506023/gstreamer-pipeline-in-opencv-videocapture
+https://devtalk.nvidia.com/default/topic/1031458/opencv-videocapture-with-gstreamer-v4l2/
+https://web-answers.ru/c/kak-otkryt-konvejer-gstreamer-iz-opencv-s.html
+
 OpenCV install
 https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/
 https://medium.com/@gitudaniel/installing-virtualenvwrapper-for-python3-ad3dfea7c717
