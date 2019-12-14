@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <cv.h>
@@ -22,7 +21,6 @@ const int kernel_size = 3;
 int main(int argc, char* argv[])
 {
 	raspicam::RaspiCam_Cv capture;
-	// Можно вручную задать разрешение
 	capture.set(CV_CAP_PROP_FORMAT, CV_8UC3);
 	capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
@@ -31,9 +29,9 @@ int main(int argc, char* argv[])
 	
 	Mat MATframe, MATframe_gray, CANNYframe, EDGESframe;
 	usleep(1000000);
+	
 	while (true)
 	{
-		// Получаем кадр
 		capture.grab();
 		capture.retrieve(MATframe);
 		flip(MATframe, MATframe, 0);
@@ -51,16 +49,12 @@ int main(int argc, char* argv[])
 
 		//imencode(".jpg", EDGESframe, buf, std::vector<int>());
 		imencode(".jpg", CANNYframe, buf, std::vector<int>());
-
-		unsigned char* JPEGframe=(unsigned char*)malloc(buf.size());
-		memcpy(JPEGframe, &buf[0], buf.size());
-		write(STDOUT_FILENO, JPEGframe, buf.size());
-		free(JPEGframe);
+		write(STDOUT_FILENO, buf.data(), buf.size());
 
 		usleep(10000);
 	}
-	// Освобождаем ресурсы
 	capture.release();
+	
 	return 0;
 }
 
