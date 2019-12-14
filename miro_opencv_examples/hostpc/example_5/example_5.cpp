@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <opencv2/imgproc.hpp>
@@ -22,7 +21,6 @@ void drawRectangle(int x, int y)
 	printf("%d x %d (BGR): [ %d, %d, %d]\n", x, y, color[0], color[1], color[2]);
 }
 
-// обработчик событий от мышки
 void myMouseCallback(int event, int x, int y, int flags, void* param)
 {
 	switch (event) {
@@ -38,28 +36,22 @@ void myMouseCallback(int event, int x, int y, int flags, void* param)
 	}
 }
 
-
 int main(int argc, char* argv[])
 {
 	const char* gst = "udpsrc port=4000 ! application/x-rtp,media=(string)video,encoding-name=(string)JPEG ! rtpjpegdepay ! decodebin ! videoconvert ! appsink";
 	cv::VideoCapture capture(gst, CAP_GSTREAMER);
-	cout<<"Example 4. OpenCV + Events on HOST-PC"<<endl;
+	cout<<"Example 5. OpenCV + Events on HOST-PC"<<endl;
 	if (!capture.isOpened()) {cerr<<"Error opening the stream"<<endl;return -1;}
 
 	cout<<"Capture is opened!"<<endl;
 
-	//Mat MATframe;
 	cv::namedWindow("RPiCameraStream", WINDOW_AUTOSIZE);
-
-	cout<<"Trying capturing..."<<endl;
-
-	// задаём обработчик мышки
 	setMouseCallback("RPiCameraStream", myMouseCallback);
 
 	while (true)
 	{
 		capture.read(MATframe);
-	// Получаем кадр
+
 		if (MATframe.empty())
 		{
 			std::cout<<"Capture read error"<<std::endl;
@@ -71,8 +63,6 @@ int main(int argc, char* argv[])
 			cv::waitKey(1);
 		}
     	}
-
-	// Освобождаем ресурсы
 	capture.release();
 	destroyWindow("RPiCameraStream");
 
