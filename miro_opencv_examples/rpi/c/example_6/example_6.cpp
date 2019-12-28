@@ -36,8 +36,7 @@ void* thread_recv_data_func(void *args)
 	    color = *((Vec3b*)sock_buf);
 	    pFile = fopen("out.txt", "a+t");
 	    fprintf(pFile, "BGR: [%d, %d, %d]\n", color[0], color[1], color[2]);
-	    //fprintf(pFile, "Recieved from client: %s\n", sock_buf);
-	    
+	
 	    fclose(pFile);
 	    usleep(10000);
 	}
@@ -85,10 +84,6 @@ int main(int argc, char* argv[])
 		imencode(".jpg", MATframe, buf, std::vector<int>());
 		
 		write(STDOUT_FILENO, buf.data(), buf.size());
-		//sock_bytes_read = recvfrom(sock, sock_buf, 1024, 0, NULL, NULL);
-		//color = *((Vec3b*)sock_buf);
-		//printf("BGR: [ %d, %d, %d]\n", color[0], color[1], color[2]);
-		//printf("Recieved from client: %s\n", sock_buf);
 		usleep(10000);
 	}
 	capture.release();
