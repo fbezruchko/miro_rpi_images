@@ -7,6 +7,8 @@ https://drive.google.com/open?id=1bLlsLpjBi-Di4cmWVUgB6gK2bqHcH0PD
 # Content
 "raspbian_stretch_kinetic_ocv346_rpizero.img" - Image based on Raspbian lite (April, 2019) with ROS Kinetic (ros-comm), gstreamer1.0, OpenCV 3.4.6, Raspicam AVA, Python 3 (+ virtual environment "cv") for Raspberry pi 1 and Raspberry pi Zero.
 
+"raspbian_stretch_kinetic_ocv348_rpi3b.img" - Image based on Raspbian lite (November, 2019) with ROS Kinetic (ros-comm), gstreamer1.0, OpenCV 3.4.8, Raspicam AVA, Python 3 (+ virtual environment "cv") for Raspberry pi 3.
+
 "image-shrink.sh" Shell script from https://www.raspberrypi.org/forums/viewtopic.php?t=192889 by user RonR. 
 
 Script usage:
