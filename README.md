@@ -3,6 +3,7 @@ This is a special images for Raspberry Pi boards, installed in Miro robot.
 
 # Download
 https://drive.google.com/open?id=1bLlsLpjBi-Di4cmWVUgB6gK2bqHcH0PD
+https://drive.google.com/open?id=14F3dctxI-pH9pbUo_ci-mFrzzorWOyUk
 
 # Content
 "raspbian_stretch_kinetic_ocv346_rpizero.img" - Image based on Raspbian lite (April, 2019) with ROS Kinetic (ros-comm), gstreamer1.0, OpenCV 3.4.6, Raspicam AVA, Python 3 (+ virtual environment "cv") for Raspberry pi 1 and Raspberry pi Zero.
